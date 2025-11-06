@@ -3,31 +3,39 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>6S Group — AI for Science & LLM Systems</title>
-  <meta name="description" content="6S is a nonprofit research salon advancing LLM systems and AI for Science. Fellowships for top-tier engineers transitioning into scientific research." />
+  <title>S⁶ Research — AI for Science & LLM Systems</title>
+  <meta name="description" content="S⁶ is a nonprofit research salon advancing LLM systems and AI for Science. Fellowships for top-tier engineers transitioning into scientific research." />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🜁</text></svg>">
-  <meta property="og:title" content="6S Group — AI for Science & LLM Systems" />
+  <meta property="og:title" content="S⁶ Research — AI for Science & LLM Systems" />
   <meta property="og:description" content="Nonprofit research salon: LLM systems, AI for Science, and open science fellowships for top-tier engineers." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://dummyimage.com/1200x630/0b1220/ffffff&text=6S+Group" />
+  <meta property="og:image" content="https://dummyimage.com/1200x630/0b1220/ffffff&text=S⁶+Research" />
   <meta name="twitter:card" content="summary_large_image" />
 
   <!-- Tailwind via CDN for a no-build static site -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tenor Sans (OFL) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tenor+Sans&display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
       theme: {
         extend: {
+          fontFamily: {
+            // Make Tenor Sans the primary "sans" stack
+            sans: ['"Tenor Sans"', 'ui-sans-serif', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'Noto Sans', 'Ubuntu', 'Cantarell', 'Helvetica Neue', 'Arial', 'sans-serif'],
+            },
           colors: {
             base: {
-              900: '#0b1220',
-              800: '#0f172a',
-              700: '#1e293b',
-              100: '#e2e8f0',
+              900: '#1A1C1A',
+              800: '#2D342E',
+              700: '#5C635B',
+              100: '#B7AA9C',
             },
             accent: {
-              500: '#7dd3fc',
-              600: '#38bdf8',
+              500: '#79C8B7',
+              600: '#E3C16F',
             }
           }
         }
@@ -42,8 +50,8 @@
   {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "6S Group",
-    "alternateName": ["6S"],
+    "name": "S⁶ Research",
+    "alternateName": ["S⁶"],
     "url": "https://your-domain.example",
     "description": "Nonprofit research salon advancing LLM systems and AI for Science with open science fellowships.",
     "founder": {
@@ -54,17 +62,18 @@
   }
   </script>
 </head>
-<body class="bg-base-900 text-white antialiased">
+<body class="bg-base-900 text-white antialiased font-sans">
   <!-- Header -->
   <header class="sticky top-0 z-50 border-b border-white/10 bg-base-900/70 glass">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="flex h-16 items-center justify-between">
         <a href="#home" class="flex items-center gap-2 font-semibold tracking-wide">
-          <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-tr from-accent-600 to-indigo-500">6S</span>
-          <span class="hidden sm:block">6S Group</span>
+          <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-tr from-accent-600 to-indigo-500">S⁶</span>
+          <span class="hidden sm:block">S⁶ Research</span>
         </a>
         <nav class="hidden items-center gap-7 md:flex text-sm">
           <a href="#mission" class="hover:text-accent-500">Mission</a>
+          <a href="#research" class="hover:text-accent-500">Current Research (Openings)</a>
           <a href="#programs" class="hover:text-accent-500">Programs</a>
           <a href="#narrative" class="hover:text-accent-500">Narrative</a>
           <a href="#about" class="hover:text-accent-500">About</a>
@@ -94,7 +103,7 @@
       <div class="max-w-3xl">
         <span class="mb-4 inline-block rounded-full border border-white/10 px-3 py-1 text-xs uppercase tracking-widest text-white/70">Nonprofit • Open Science</span>
         <h1 class="text-4xl sm:text-5xl font-bold leading-tight">Advancing <span class="text-accent-600">LLM Systems</span> & <span class="text-accent-600">AI for Science</span> to lift human quality of life</h1>
-        <p class="mt-5 max-w-2xl text-white/80">6S is a research salon and fellowship for top-tier engineers transitioning into scientific roles. We build methods, systems, and benchmarks that make scientific discovery faster, safer, and more reliable.</p>
+        <p class="mt-5 max-w-2xl text-white/80">S⁶ is a research salon and fellowship for top-tier engineers transitioning into scientific roles. We build methods, systems, and benchmarks that make scientific discovery faster, safer, and more reliable.</p>
         <div class="mt-8 flex flex-wrap gap-3">
           <a href="#apply" class="rounded-xl bg-accent-600 px-5 py-3 text-sm font-semibold text-black hover:brightness-110">Apply to a Fellowship</a>
           <a href="#programs" class="rounded-xl border border-white/15 px-5 py-3 text-sm font-semibold text-white/90 hover:bg-white/5">Explore Programs</a>
@@ -140,6 +149,73 @@
       </div>
     </div>
   </section>
+
+  <!-- Current Research -->
+  <section id="research" class="py-16 sm:py-24 border-t border-white/10 bg-base-900">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl">
+        <h2 class="text-2xl sm:text-3xl font-bold">Current Research (Openings)</h2>
+        <p class="mt-4 text-white/80">
+          Our projects explore the frontier between large language models, scientific reasoning, and new forms of machine understanding. Fellows and collaborators contribute to open, high-impact efforts spanning systems, modeling, and evaluation.
+        </p>
+      </div>
+
+      <div class="mt-10 grid gap-6 md:grid-cols-2">
+        <!-- Project 1 -->
+        <div class="rounded-2xl border border-white/10 p-6">
+          <h3 class="text-xl font-semibold">Figure Understanding for AI Agents</h3>
+          <p class="mt-2 text-white/80">
+            Integrating diagram and figure comprehension into LLM-based research agents. 
+            The goal is to enable retrieval and reasoning over scientific figures—so agents can
+            interpret, reference, and cite visual evidence as naturally as text.
+          </p>
+          <p class="mt-3 text-sm text-white/60">LLM Systems · Image Understanding · RAG</p>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="rounded-2xl border border-white/10 p-6">
+          <h3 class="text-xl font-semibold">Diffusion-Transformer DNA Models</h3>
+          <p class="mt-2 text-white/80">
+            Developing compact diffusion-transformer (DiT) architectures for biological sequences.
+            We study whether small-scale DiTs (4–20M parameters) can rival current hybrid transformer-SSM models
+            for DNA representation learning.
+          </p>
+          <p class="mt-3 text-sm text-white/60">Diffusion Models · Biological Foundation Models</p>
+        </div>
+
+        <!-- Project 3 -->
+        <div class="rounded-2xl border border-white/10 p-6">
+          <h3 class="text-xl font-semibold">Latent Communication Between Agents</h3>
+          <p class="mt-2 text-white/80">
+            Investigating communication protocols where agents exchange latent “thoughts” rather than tokens. 
+            This line of work explores compressed reasoning transfer and efficient collaboration inside multi-agent systems.
+          </p>
+          <p class="mt-3 text-sm text-white/60">Multi-Agent Systems · Latent Reasoning</p>
+        </div>
+
+        <!-- Project 4 -->
+        <div class="rounded-2xl border border-white/10 p-6">
+          <h3 class="text-xl font-semibold">Unlearning as Discovery Benchmark</h3>
+          <p class="mt-2 text-white/80">
+            Studying unlearning as a probe for knowledge regeneration—first removing a concept from a model, 
+            then testing whether it can rediscover it through reasoning. 
+            A position paper was presented at NeurIPS AI4Science 2025.
+          </p>
+          <p class="mt-3 text-sm text-white/60">Evaluation · Knowledge Dynamics</p>
+        </div>
+
+        <!-- Propose Your Own -->
+        <div class="rounded-2xl border border-dashed border-white/10 p-6 md:col-span-2 text-center">
+          <h3 class="text-xl font-semibold">Propose Your Own Research</h3>
+          <p class="mt-2 text-white/80">
+            Have an idea that aligns with our mission? We welcome proposals from fellows and collaborators. 
+            If the topic is beyond our core expertise, we’ll do our best to connect you with someone who can help.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
 
   <!-- Programs -->
   <section id="programs" class="py-16 sm:py-24 border-t border-white/10">
@@ -199,10 +275,10 @@
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="grid gap-10 md:grid-cols-3 md:items-start">
         <div class="md:col-span-2">
-          <h2 class="text-2xl sm:text-3xl font-bold">About 6S</h2>
-          <p class="mt-4 text-white/80">6S follows the spirit of early open AI research organizations: open by default, research‑first, safety‑conscious. We focus on LLM systems, AI for Science, and foundational infrastructure that improves the reliability and utility of modern models in scientific workflows.</p>
+          <h2 class="text-2xl sm:text-3xl font-bold">About S⁶</h2>
+          <p class="mt-4 text-white/80">S⁶ follows the spirit of early open AI research organizations: open by default, research‑first, safety‑conscious. We focus on LLM systems, AI for Science, and foundational infrastructure that improves the reliability and utility of modern models in scientific workflows.</p>
           <h3 class="mt-8 text-lg font-semibold">Founder</h3>
-          <p class="mt-2 text-white/80"><strong>Robert Yang</strong> (Stanford BS with Distinction, Terman Scholar; MS in Computer Science, AI focus) founded 6S after personally transitioning from engineering to research. His interests span data drift, AI for science, ML systems, foundation models, and unlearning. Previously, he built LLM model serving and infrastructure at scale (ex‑AWS).</p>
+          <p class="mt-2 text-white/80"><strong>Robert Yang</strong> (Stanford BS with Distinction, Terman Scholar; MS in Computer Science, AI focus) founded S⁶ after personally transitioning from engineering to research. His interests span data drift, AI for science, ML systems, foundation models, and unlearning. Previously, he worked as a Research Scientist at a biology foundation model startup (Rosa Bio), and he built LLM model serving and infrastructure at scale (ex‑AWS).</p>
         </div>
         <aside class="rounded-2xl border border-white/10 p-6">
           <h4 class="font-semibold">Principles</h4>
@@ -269,7 +345,7 @@
   <footer class="border-t border-white/10 py-10 text-sm text-white/60">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <p>© <span id="year"></span> 6S Group — Nonprofit research salon for LLM Systems & AI for Science.</p>
+        <p>© <span id="year"></span> S⁶ Research — Nonprofit research salon for LLM Systems & AI for Science.</p>
         <div class="flex gap-4">
           <a href="#mission" class="hover:text-white">Mission</a>
           <a href="#programs" class="hover:text-white">Programs</a>
