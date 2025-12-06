@@ -9,7 +9,8 @@
   <meta property="og:title" content="S⁶ Research — AI for Science & LLM Systems" />
   <meta property="og:description" content="Nonprofit research salon: LLM systems, AI for Science, and open science fellowships for top-tier engineers." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://dummyimage.com/1200x630/0b1220/ffffff&text=S⁶+Research" />
+  <meta property="og:url" content="https://s6research.org" />
+  <meta property="og:image" content="https://github.com/6S-bobby/6s-site/blob/9264cc481939e4e316b8876e4b14191b42709bc9/s6_thumbnail.png" />
   <meta name="twitter:card" content="summary_large_image" />
 
   <!-- Tailwind via CDN for a no-build static site -->
@@ -52,7 +53,7 @@
     "@type": "Organization",
     "name": "S⁶ Research",
     "alternateName": ["S⁶"],
-    "url": "https://your-domain.example",
+    "url": "https://s6research.org",
     "description": "Nonprofit research salon advancing LLM systems and AI for Science with open science fellowships.",
     "founder": {
       "@type": "Person",
@@ -108,6 +109,11 @@
           <a href="#apply" class="rounded-xl bg-accent-600 px-5 py-3 text-sm font-semibold text-black hover:brightness-110">Apply to a Fellowship</a>
           <a href="#programs" class="rounded-xl border border-white/15 px-5 py-3 text-sm font-semibold text-white/90 hover:bg-white/5">Explore Programs</a>
         </div>
+      </div>
+      <!-- S^6 easter-egg canvas; positioned over right half of hero -->
+      <div class="pointer-events-none absolute inset-y-0 right-0 w-1/2">
+        <!-- transparent canvas; no background color -->
+        <canvas id="s6Viz" class="h-full w-full opacity-0 transition-opacity duration-500 will-change-transform"></canvas>
       </div>
     </div>
   </section>
@@ -181,6 +187,16 @@
             for DNA representation learning.
           </p>
           <p class="mt-3 text-sm text-white/60">Diffusion Models · Biological Foundation Models</p>
+        </div>
+
+        <!-- Project 3 -->
+        <div class="rounded-2xl border border-white/10 p-6">
+          <h3 class="text-xl font-semibold">Latent Communication Between Agents</h3>
+          <p class="mt-2 text-white/80">
+            Investigating communication protocols where agents exchange latent “thoughts” rather than tokens. 
+            This line of work explores compressed reasoning transfer and efficient collaboration inside multi-agent systems.
+          </p>
+          <p class="mt-3 text-sm text-white/60">Multi-Agent Systems · Latent Reasoning</p>
         </div>
 
         <!-- Project 4 -->
@@ -305,7 +321,7 @@
               <select class="rounded-lg border border-white/10 bg-base-900 px-3 py-2 outline-none focus:ring-2 focus:ring-accent-600" name="interest" required>
                 <option class="bg-base-900" value="Full-time Fellowship">Full-time Fellowship</option>
                 <option class="bg-base-900" value="Part-time Fellowship">Part-time Fellowship</option>
-                <option class="bg-base-900" value="Part-time Fellowship">Collaboration</option>
+                <option class="bg-base-900" value="Collaboration">Collaboration</option>
                 <option class="bg-base-900" value="Mentorship / Research Lead">Mentorship / Research Lead</option>
                 <option class="bg-base-900" value="Donor / Sponsor">Donor / Sponsor</option>
                 <option class="bg-base-900" value="General">General</option>
@@ -322,7 +338,7 @@
           <h3 class="text-lg font-semibold">Direct Email</h3>
           <p class="mt-2 text-white/80">Prefer email? Reach Robert directly:</p>
           <div class="mt-4">
-            <a class="inline-block rounded-xl border border-white/15 px-4 py-2 text-sm hover:bg-white/5" href="mailto:hello@your-domain.example">hello@your-domain.example</a>
+            <a class="inline-block rounded-xl border border-white/15 px-4 py-2 text-sm hover:bg-white/5" href="mailto:robert@s6research.org">robert at s6research.org</a>
           </div>
           <div class="mt-6 text-sm text-white/70">
             <p>When funding solidifies, we may introduce paid cohorts. Until then, fellowships operate as mentorship and open research collaborations.</p>
@@ -354,6 +370,179 @@
     btn?.addEventListener('click', () => menu.classList.toggle('hidden'));
     // Year
     document.getElementById('year').textContent = new Date().getFullYear();
+    // -------------------------------
+    // S^6 "latent wireframe" easter egg (transparent canvas)
+    // -------------------------------
+    (function s6EasterEgg(){
+      const hero = document.getElementById('home');
+      const canvas = document.getElementById('s6Viz');
+      if (!hero || !canvas) return;
+      const ctx = canvas.getContext('2d');
+      let dpi = window.devicePixelRatio || 1;
+      let raf = null, running = false, alpha = 0;
+
+      // Parameters (wireframe rings)
+      const RINGS = 18;             // number of great-circle rings
+      const SEG   = 220;            // segments per ring
+      const lifeMs = 3000;          // visible duration per reveal
+      const fadeMs = 700;
+      const transparentFade = 0.08; // how quickly previous frame fades (0..1)
+      const colorA = [227,193,111]; // #E3C16F Solar Ochre
+      const colorB = [121,200,183]; // #79C8B7 Verdant Circuit
+
+      // Precompute ring bases in 6D: pairs of orthonormal vectors (u,v)
+      const bases = [];
+      for (let j=0;j<RINGS;j++){
+        const U = randUnit6();
+        let V  = randUnit6();
+        // orthogonalize V against U
+        let dot = 0; for (let k=0;k<6;k++) dot += U[k]*V[k];
+        for (let k=0;k<6;k++) V[k] -= dot*U[k];
+        const n = Math.hypot(...V); for (let k=0;k<6;k++) V[k] /= (n||1);
+        bases.push([U,V]);
+      }
+      // Random 6x3 projection matrix (orthonormal-ish via Gram-Schmidt lite)
+      const P = gramSchmidt(randomMat(6,3));
+
+      function resize(){
+        const rect = canvas.getBoundingClientRect();
+        dpi = window.devicePixelRatio || 1;
+        canvas.width = Math.max(1, Math.floor(rect.width * dpi));
+        canvas.height = Math.max(1, Math.floor(rect.height * dpi));
+      }
+      window.addEventListener('resize', resize, {passive:true});
+      resize();
+
+      function reveal(){
+        if (running) return; // debounce
+        running = true;
+        alpha = 1;
+        canvas.style.opacity = '1';
+        const start = performance.now();
+        const R0 = Math.min(canvas.width, canvas.height) * 0.33; // adaptive radius
+        let tPrev = start;
+
+        function frame(t){
+          const dt = (t - tPrev) / 1000;
+          tPrev = t;
+            // Transparent fade of previous strokes (no black box):
+          // briefly switch to destination-out and paint a translucent rect
+          ctx.save();
+          ctx.globalCompositeOperation = 'destination-out';
+          ctx.fillStyle = `rgba(0,0,0,${transparentFade})`;
+          ctx.fillRect(0,0,canvas.width,canvas.height);
+          ctx.restore();
+
+          const cx = canvas.width * 0.35;  // slight left shift inside right half
+          const cy = canvas.height * 0.5;
+          const ang1 = (t-start) * 0.00035; // two incommensurate rotations
+          const ang2 = (t-start) * 0.00057;
+
+          // Draw great-circle rings as wireframe
+          ctx.lineWidth = 0.75 * dpi;
+          for (let j=0;j<RINGS;j++){
+            const [U0,V0] = bases[j];
+            // slow pre-rotation of the basis in 6D
+            const a = ang1 + j*0.07, b = ang2 - j*0.05, c = (ang1+ang2)*0.33;
+            const U = rot6(U0, a,b,c);
+            const V = rot6(V0, b,c,a);
+            ctx.beginPath();
+            for (let s=0; s<=SEG; s++){
+              const th = (s/SEG)*Math.PI*2;
+              // point on 6D unit circle in span{U,V}
+              const v6 = comb6(U, Math.cos(th), V, Math.sin(th));
+              // project to 3D
+              const y0 = dot6(v6, P[0]);
+              const y1 = dot6(v6, P[1]);
+              const y2 = dot6(v6, P[2]);
+              const depth = 0.95 + 0.55*y2;
+              const R = R0 / depth;
+              const X = cx + R * y0;
+              const Y = cy + R * y1;
+              if (s===0) ctx.moveTo(X,Y); else ctx.lineTo(X,Y);
+            }
+            // depth-tinted stroke
+            const w = (j/(RINGS-1));
+            const r = Math.floor(lerp(colorA[0], colorB[0], w));
+            const g = Math.floor(lerp(colorA[1], colorB[1], w));
+            const bl = Math.floor(lerp(colorA[2], colorB[2], w));
+            ctx.strokeStyle = `rgba(${r},${g},${bl},${0.18*alpha})`;
+            ctx.stroke();
+          }
+          // end condition
+          const elapsed = t - start;
+          if (elapsed > lifeMs) {
+            alpha = Math.max(0, 1 - (elapsed - lifeMs)/fadeMs);
+            canvas.style.opacity = String(alpha);
+            if (alpha <= 0.01) {
+              running = false;
+              ctx.clearRect(0,0,canvas.width,canvas.height); // fully transparent
+              return;
+            }
+          }
+          raf = requestAnimationFrame(frame);
+        }
+        raf = requestAnimationFrame(frame);
+      }
+
+      // Trigger only when pointer enters right half of the hero, or on touch
+      hero.addEventListener('pointermove', (ev)=>{
+        const rect = hero.getBoundingClientRect();
+        const relX = (ev.clientX - rect.left) / rect.width;
+        if (relX > 0.5) reveal();
+      }, {passive:true});
+      hero.addEventListener('pointerdown', (ev)=>{
+        const rect = hero.getBoundingClientRect();
+        const relX = (ev.clientX - rect.left) / rect.width;
+        if (relX > 0.5) reveal();
+      }, {passive:true});
+
+      // Helpers
+      function randUnit6(){
+        // Gaussian -> normalize => random unit vector in R^6
+        const v = new Float32Array(6);
+        for (let i=0;i<6;i++){
+          let u=0, w=0; while(u===0) u=Math.random(); while(w===0) w=Math.random();
+          v[i] = Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*w);
+        }
+        const n = Math.hypot(...v); for (let i=0;i<6;i++) v[i]/=n||1;
+        return v;
+      }
+      function randomMat(r,c){
+        const M = Array.from({length:c},()=>new Float32Array(r));
+        for (let j=0;j<c;j++) for (let i=0;i<r;i++) M[j][i]=Math.random()*2-1;
+        return M;
+      }
+      function gramSchmidt(M){
+        // columns in M[j] (length r); return same shape but orthonormal
+        const out = M.map(col=>col.slice());
+        for (let j=0;j<out.length;j++){
+          for (let k=0;k<j;k++) projSub(out[j], out[k]);
+          const n = Math.hypot(...out[j]); for (let i=0;i<out[j].length;i++) out[j][i]/=n||1;
+        }
+        return out;
+      }
+      function projSub(a, b){ // a -= (a·b) b
+        let dot = 0; for (let i=0;i<a.length;i++) dot += a[i]*b[i];
+        for (let i=0;i<a.length;i++) a[i]-=dot*b[i];
+      }
+      function rot2(x,y,ang){ const c=Math.cos(ang), s=Math.sin(ang); return [c*x - s*y, s*x + c*y]; }
+      function dot6(v, col){ let s=0; for (let i=0;i<6;i++) s+=v[i]*col[i]; return s; }
+      function lerp(a,b,t){ return a + (b-a)*t; }
+      function rot6(v,a,b,c){
+        // rotate v within three orthogonal planes: (0,1), (2,3), (4,5)
+        const r = v.slice();
+        let t = rot2(r[0],r[1],a); r[0]=t[0]; r[1]=t[1];
+        t = rot2(r[2],r[3],b);     r[2]=t[0]; r[3]=t[1];
+        t = rot2(r[4],r[5],c);     r[4]=t[0]; r[5]=t[1];
+        return r;
+      }
+      function comb6(u, au, v, av){
+        const out = new Float32Array(6);
+        for (let i=0;i<6;i++) out[i] = au*u[i] + av*v[i];
+        return out;
+      }
+    })();
   </script>
 </body>
 </html>
